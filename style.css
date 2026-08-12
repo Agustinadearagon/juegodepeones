@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a2e;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor {
+    text-align: center;
+    padding: 20px;
+    max-width: 700px;
+}
+
+h1 {
+    margin-bottom: 8px;
+    color: #e94560;
+}
+
+.objetivo {
+    margin-bottom: 25px;
+    color: #aaaaaa;
+    font-size: 15px;
+}
+
+.tablero {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.casilla {
+    width: 65px;
+    height: 70px;
+    border: 3px solid #333;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.15s;
+    background-color: #16213e;
+    user-select: none;
+}
+
+.casilla:hover {
+    transform: scale(1.07);
+}
+
+.casilla .nombre {
+    font-size: 11px;
+    color: #777;
+    margin-bottom: 3px;
+}
+
+.casilla .pieza {
+    font-size: 30px;
+    line-height: 1;
+}
+
+/* Estados de las casillas */
+.casilla.seleccionada {
+    border-color: #e94560;
+    background-color: #2a1a3e;
+    box-shadow: 0 0 12px #e94560;
+}
+
+.casilla.posible {
+    border-color: #0f0;
+    background-color: #1a3e2a;
+    box-shadow: 0 0 10px #0f0;
+}
+
+.casilla.posible:hover {
+    background-color: #2a5e3a;
+}
+
+/* Colores de piezas */
+.blanco {
+    color: #f0f0f0;
+}
+
+.negro {
+    color: #111;
+    text-shadow: 0 0 3px #fff, 0 0 5px #fff;
+}
+
+.vacio {
+    color: #444;
+}
+
+.controles {
+    margin-bottom: 20px;
+}
+
+#btnReiniciar {
+    background-color: #e94560;
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#btnReiniciar:hover {
+    background-color: #c73652;
+}
+
+#mensaje {
+    margin-top: 12px;
+    min-height: 22px;
+    color: #0f0;
+    font-weight: bold;
+}
+
+.info {
+    color: #777;
+    font-size: 13px;
+    line-height: 1.5;
+}
