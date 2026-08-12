@@ -12,6 +12,19 @@ const diagonal = [
 let estadoDiagonal = ["B", "B", "B", ".", ".", "N", "N", "N"];
 let seleccionada = null;
 
+// ========== NAVEGACIÓN ENTRE PANTALLAS ==========
+document.getElementById("btnEmpezar").addEventListener("click", () => {
+    document.getElementById("pantalla-inicio").style.display = "none";
+    document.getElementById("pantalla-juego").style.display = "block";
+    reiniciarJuego();
+});
+
+document.getElementById("btnVolver").addEventListener("click", () => {
+    document.getElementById("pantalla-juego").style.display = "none";
+    document.getElementById("pantalla-inicio").style.display = "block";
+});
+
+// ========== LÓGICA DEL JUEGO ==========
 function crearTablero() {
     const contenedor = document.getElementById("tablero");
     contenedor.innerHTML = "";
@@ -69,25 +82,21 @@ function obtenerMovimientosPosibles(origen) {
     const pieza = estadoDiagonal[origen];
     if (pieza === ".") return posibles;
 
-    // Blancos solo hacia h8
+    // Blancos solo hacia h8 (derecha)
     if (pieza === "B") {
-        // Avance una casilla
         if (origen + 1 < 8 && estadoDiagonal[origen + 1] === ".") {
             posibles.push(origen + 1);
         }
-        // Salto sobre un negro
         if (origen + 2 < 8 && estadoDiagonal[origen + 1] === "N" && estadoDiagonal[origen + 2] === ".") {
             posibles.push(origen + 2);
         }
     }
 
-    // Negros solo hacia a1
+    // Negros solo hacia a1 (izquierda)
     if (pieza === "N") {
-        // Avance una casilla
         if (origen - 1 >= 0 && estadoDiagonal[origen - 1] === ".") {
             posibles.push(origen - 1);
         }
-        // Salto sobre un blanco
         if (origen - 2 >= 0 && estadoDiagonal[origen - 1] === "B" && estadoDiagonal[origen - 2] === ".") {
             posibles.push(origen - 2);
         }
@@ -132,15 +141,16 @@ function haGanado() {
     return estadoDiagonal.join("") === "NNN..BBB";
 }
 
-document.getElementById("btnReiniciar").addEventListener("click", () => {
+function reiniciarJuego() {
     estadoDiagonal = ["B", "B", "B", ".", ".", "N", "N", "N"];
     seleccionada = null;
     document.getElementById("mensaje").textContent = "";
     crearTablero();
-});
+}
 
-crearTablero();
+document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
 
+// Service Worker
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js")
