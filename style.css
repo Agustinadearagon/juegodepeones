@@ -12,7 +12,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px;
+    padding: 16px;
 }
 
 .contenedor {
@@ -22,11 +22,86 @@ body {
 }
 
 h1 {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     color: #e94560;
-    font-size: 26px;
+    font-size: 28px;
 }
 
+.subtitulo {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* ===== REGLAS (pantalla inicio) ===== */
+.reglas {
+    text-align: left;
+    background: #16213e;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #ddd;
+}
+
+.reglas h2 {
+    color: #e94560;
+    font-size: 17px;
+    margin: 16px 0 10px;
+}
+
+.reglas ul {
+    padding-left: 18px;
+    margin: 8px 0 12px;
+}
+
+.reglas li {
+    margin-bottom: 8px;
+}
+
+.objetivo-final {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #333;
+    color: #0f0;
+    font-size: 15px;
+}
+
+/* ===== BOTONES ===== */
+.btn-principal {
+    background-color: #e94560;
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    font-size: 17px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-principal:hover {
+    background-color: #c73652;
+}
+
+.btn-secundario {
+    background-color: transparent;
+    color: #aaa;
+    border: 1px solid #555;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-secundario:hover {
+    border-color: #e94560;
+    color: #e94560;
+}
+
+/* ===== JUEGO ===== */
 .objetivo {
     margin-bottom: 18px;
     color: #aaa;
@@ -34,7 +109,6 @@ h1 {
     line-height: 1.4;
 }
 
-/* Tablero 8x8 */
 .tablero-ajedrez {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -56,7 +130,6 @@ h1 {
     user-select: none;
 }
 
-/* Colores del tablero */
 .casilla.clara {
     background-color: #f0d9b5;
 }
@@ -65,7 +138,6 @@ h1 {
     background-color: #b58863;
 }
 
-/* Diagonal marcada */
 .casilla.diagonal {
     outline: 3px solid #e94560;
     outline-offset: -3px;
@@ -83,7 +155,6 @@ h1 {
     cursor: pointer;
 }
 
-/* Piezas */
 .pieza {
     font-size: 32px;
     line-height: 1;
@@ -102,6 +173,11 @@ h1 {
 
 .controles {
     margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 #btnReiniciar {
@@ -119,6 +195,7 @@ h1 {
 }
 
 #mensaje {
+    width: 100%;
     margin-top: 10px;
     min-height: 22px;
     color: #0f0;
@@ -139,5 +216,9 @@ h1 {
     }
     h1 {
         font-size: 22px;
+    }
+    .reglas {
+        font-size: 13px;
+        padding: 14px 16px;
     }
 }
