@@ -3,18 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Peones</title>
+    <title>Juego de Peones · Sapos y Ranas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="contenedor">
+    <!-- ========== PÁGINA PRINCIPAL (REGLAS) ========== -->
+    <div id="pantalla-inicio" class="contenedor">
         <h1>Juego de Peones</h1>
-        <p class="objetivo">Mueve los peones solo por la diagonal marcada. Objetivo: intercambiar blancos y negros.</p>
+        <p class="subtitulo">Sapos y Ranas · Toads and Frogs</p>
+
+        <div class="reglas">
+            <p>
+                El juego de <strong>sapos y ranas</strong> (conocido en inglés como <em>Toads and Frogs</em>) 
+                es un famoso rompecabezas matemático de lógica inventado por el matemático <strong>Richard Guy</strong>.
+            </p>
+            <p>
+                El objetivo es lograr que un grupo de fichas situadas a la izquierda y otro a la derecha 
+                intercambien completamente sus lados utilizando movimientos específicos.
+            </p>
+
+            <h2>Reglas del juego</h2>
+
+            <ul>
+                <li><strong>Posición inicial:</strong> Tres peones blancos a la izquierda y tres peones negros a la derecha, separados por casillas vacías en el centro de la diagonal.</li>
+                <li><strong>Dirección de movimiento:</strong> Los peones blancos solo pueden avanzar hacia la derecha (hacia h8). Los peones negros solo pueden avanzar hacia la izquierda (hacia a1).</li>
+                <li><strong>Desplazamiento simple:</strong> Una ficha puede avanzar a una casilla vacía contigua si está libre.</li>
+                <li><strong>Salto:</strong> Una ficha puede saltar por encima de una ficha del bando contrario siempre que la casilla inmediatamente detrás esté vacía. No está permitido saltar sobre una ficha del mismo color.</li>
+                <li><strong>Ocupación:</strong> Dos fichas no pueden ocupar la misma casilla al mismo tiempo.</li>
+            </ul>
+
+            <p class="objetivo-final">
+                <strong>Objetivo:</strong> Intercambiar completamente las posiciones de blancos y negros.
+            </p>
+        </div>
+
+        <button id="btnEmpezar" class="btn-principal">Empezar partida</button>
+    </div>
+
+    <!-- ========== PÁGINA DE JUEGO ========== -->
+    <div id="pantalla-juego" class="contenedor" style="display: none;">
+        <h1>Juego de Peones</h1>
+        <p class="objetivo">Mueve los peones solo por la diagonal marcada.<br>Objetivo: intercambiar blancos y negros.</p>
 
         <div class="tablero-ajedrez" id="tablero"></div>
 
         <div class="controles">
             <button id="btnReiniciar">Reiniciar</button>
+            <button id="btnVolver" class="btn-secundario">Volver</button>
             <p id="mensaje"></p>
         </div>
 
