@@ -9,11 +9,9 @@
 <body>
     <div class="contenedor">
         <h1>Juego de Peones</h1>
-        <p class="objetivo">Objetivo: intercambiar los peones blancos y negros</p>
+        <p class="objetivo">Mueve los peones solo por la diagonal marcada. Objetivo: intercambiar blancos y negros.</p>
 
-        <div class="tablero" id="tablero">
-            <!-- Las casillas se generan con JavaScript -->
-        </div>
+        <div class="tablero-ajedrez" id="tablero"></div>
 
         <div class="controles">
             <button id="btnReiniciar">Reiniciar</button>
@@ -21,8 +19,8 @@
         </div>
 
         <div class="info">
-            <p>Solo se juega en la diagonal a1 → h8</p>
-            <p>Haz clic en un peón y luego en la casilla destino</p>
+            <p>Solo se pueden mover los peones que están en la diagonal a1-h8</p>
+            <p>Haz clic en un peón y luego en una casilla válida de la diagonal</p>
         </div>
     </div>
 
