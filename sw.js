@@ -1,5 +1,5 @@
 // sw.js - versión forzada
-const CACHE_NAME = "juegodepeones-v10";   // ← número alto para forzar actualización
+const CACHE_NAME = "juegodepeones-v11";   // ← número alto para forzar actualización
 
 const archivos = [
     "./",
