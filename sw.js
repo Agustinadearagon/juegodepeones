@@ -1,40 +1,36 @@
-// sw.js
-const CACHE_NAME = "juegodepeones-v6";  // Cambia el número cada vez que hagas cambios importantes
+// sw.js - versión forzada
+const CACHE_NAME = "juegodepeones-v10";   // ← número alto para forzar actualización
 
 const archivos = [
     "./",
     "./index.html",
     "./style.css",
-    "./script.js"
+    "./script.js",
+    "./sw.js"
 ];
 
-// Instalar y guardar en caché
 self.addEventListener("install", (evento) => {
+    self.skipWaiting(); // activa inmediatamente
     evento.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(archivos);
-        })
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(archivos))
     );
-    self.skipWaiting(); // Activa la nueva versión inmediatamente
 });
 
-// Activar y borrar cachés antiguas
 self.addEventListener("activate", (evento) => {
     evento.waitUntil(
         caches.keys().then((nombres) => {
             return Promise.all(
                 nombres.map((nombre) => {
                     if (nombre !== CACHE_NAME) {
+                        console.log("Borrando caché antigua:", nombre);
                         return caches.delete(nombre);
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim())
     );
-    self.clients.claim();
 });
 
-// Interceptar peticiones
 self.addEventListener("fetch", (evento) => {
     evento.respondWith(
         caches.match(evento.request).then((respuesta) => {
