@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_NAME = "juegodepeones-v3";  // Cambia el número cada vez que hagas cambios importantes
+const CACHE_NAME = "juegodepeones-v4";  // Cambia el número cada vez que hagas cambios importantes
 
 const archivos = [
     "./",
