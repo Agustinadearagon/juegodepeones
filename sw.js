@@ -1,4 +1,4 @@
-const CACHE_NAME = "juegodepeones-v13";  // ← sube el número cada vez que hagas cambios
+const CACHE_NAME = "juegodepeones-v14";  // ← sube el número cada vez que hagas cambios
 
 const FILES_TO_CACHE = [
     "./",
