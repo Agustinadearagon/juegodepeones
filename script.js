@@ -1,21 +1,19 @@
-// Coordenadas de la diagonal a1-h8 (fila 0-7, columna 0-7)
-// a1 = (7,0), b2=(6,1), c3=(5,2), d4=(4,3), e5=(3,4), f6=(2,5), g7=(1,6), h8=(0,7)
+// Diagonal a1 → h8
+// índice 0 = a1, 1 = b2, 2 = c3, 3 = d4, 4 = e5, 5 = f6, 6 = g7, 7 = h8
 const diagonal = [
-    { fila: 7, col: 0, nombre: "a1" }, // 0
-    { fila: 6, col: 1, nombre: "b2" }, // 1
-    { fila: 5, col: 2, nombre: "c3" }, // 2
-    { fila: 4, col: 3, nombre: "d4" }, // 3
-    { fila: 3, col: 4, nombre: "e5" }, // 4
-    { fila: 2, col: 5, nombre: "f6" }, // 5
-    { fila: 1, col: 6, nombre: "g7" }, // 6
-    { fila: 0, col: 7, nombre: "h8" }  // 7
+    { fila: 7, col: 0, nombre: "a1" },
+    { fila: 6, col: 1, nombre: "b2" },
+    { fila: 5, col: 2, nombre: "c3" },
+    { fila: 4, col: 3, nombre: "d4" },
+    { fila: 3, col: 4, nombre: "e5" },
+    { fila: 2, col: 5, nombre: "f6" },
+    { fila: 1, col: 6, nombre: "g7" },
+    { fila: 0, col: 7, nombre: "h8" }
 ];
 
-// Estado de las 8 posiciones de la diagonal
 let estadoDiagonal = ["B", "B", "B", ".", ".", "N", "N", "N"];
-let seleccionada = null; // índice en la diagonal (0-7)
+let seleccionada = null;
 
-// Crear el tablero visual 8x8
 function crearTablero() {
     const contenedor = document.getElementById("tablero");
     contenedor.innerHTML = "";
@@ -25,20 +23,17 @@ function crearTablero() {
             const casilla = document.createElement("div");
             casilla.classList.add("casilla");
 
-            // Color de casilla
             if ((fila + col) % 2 === 0) {
                 casilla.classList.add("clara");
             } else {
                 casilla.classList.add("oscura");
             }
 
-            // ¿Pertenece a la diagonal?
             const indiceDiag = diagonal.findIndex(d => d.fila === fila && d.col === col);
             if (indiceDiag !== -1) {
                 casilla.classList.add("diagonal");
                 casilla.dataset.indice = indiceDiag;
 
-                // Pieza
                 const pieza = estadoDiagonal[indiceDiag];
                 if (pieza === "B") {
                     const span = document.createElement("span");
@@ -52,7 +47,6 @@ function crearTablero() {
                     casilla.appendChild(span);
                 }
 
-                // Evento de clic solo en la diagonal
                 casilla.addEventListener("click", () => clicDiagonal(indiceDiag));
             }
 
@@ -60,7 +54,6 @@ function crearTablero() {
         }
     }
 
-    // Marcar selección y movimientos posibles
     if (seleccionada !== null) {
         const casillaSel = document.querySelector(`[data-indice="${seleccionada}"]`);
         if (casillaSel) casillaSel.classList.add("seleccionada");
@@ -78,39 +71,43 @@ function obtenerMovimientosPosibles(origen) {
     const pieza = estadoDiagonal[origen];
     if (pieza === ".") return posibles;
 
-    // Deslizar hacia índices mayores
-    for (let i = origen + 1; i < 8; i++) {
-        if (estadoDiagonal[i] === ".") {
-            posibles.push(i);
-        } else {
-            break;
+    // ===== BLANCOS solo avanzan hacia índices mayores (hacia h8) =====
+    if (pieza === "B") {
+        // Deslizar hacia adelante
+        for (let i = origen + 1; i < 8; i++) {
+            if (estadoDiagonal[i] === ".") {
+                posibles.push(i);
+            } else {
+                break;
+            }
+        }
+        // Saltar hacia adelante
+        if (origen + 2 < 8) {
+            const medio = estadoDiagonal[origen + 1];
+            const destino = estadoDiagonal[origen + 2];
+            if (medio !== "." && medio !== "B" && destino === ".") {
+                posibles.push(origen + 2);
+            }
         }
     }
 
-    // Deslizar hacia índices menores
-    for (let i = origen - 1; i >= 0; i--) {
-        if (estadoDiagonal[i] === ".") {
-            posibles.push(i);
-        } else {
-            break;
+    // ===== NEGROS solo avanzan hacia índices menores (hacia a1) =====
+    if (pieza === "N") {
+        // Deslizar hacia adelante (hacia a1)
+        for (let i = origen - 1; i >= 0; i--) {
+            if (estadoDiagonal[i] === ".") {
+                posibles.push(i);
+            } else {
+                break;
+            }
         }
-    }
-
-    // Saltar hacia adelante
-    if (origen + 2 < 8) {
-        const medio = estadoDiagonal[origen + 1];
-        const destino = estadoDiagonal[origen + 2];
-        if (medio !== "." && medio !== pieza && destino === ".") {
-            posibles.push(origen + 2);
-        }
-    }
-
-    // Saltar hacia atrás
-    if (origen - 2 >= 0) {
-        const medio = estadoDiagonal[origen - 1];
-        const destino = estadoDiagonal[origen - 2];
-        if (medio !== "." && medio !== pieza && destino === ".") {
-            posibles.push(origen - 2);
+        // Saltar hacia adelante
+        if (origen - 2 >= 0) {
+            const medio = estadoDiagonal[origen - 1];
+            const destino = estadoDiagonal[origen - 2];
+            if (medio !== "." && medio !== "N" && destino === ".") {
+                posibles.push(origen - 2);
+            }
         }
     }
 
@@ -131,7 +128,6 @@ function clicDiagonal(indice) {
         } else {
             const posibles = obtenerMovimientosPosibles(seleccionada);
             if (posibles.includes(indice)) {
-                // Mover
                 estadoDiagonal[indice] = estadoDiagonal[seleccionada];
                 estadoDiagonal[seleccionada] = ".";
                 seleccionada = null;
@@ -162,10 +158,8 @@ document.getElementById("btnReiniciar").addEventListener("click", () => {
     crearTablero();
 });
 
-// Iniciar
 crearTablero();
 
-// Service Worker
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js")
