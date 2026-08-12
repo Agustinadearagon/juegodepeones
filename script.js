@@ -3,7 +3,7 @@ const nombresCasillas = ["a1", "b2", "c3", "d4", "e5", "f6", "g7", "h8"];
 
 // Posición inicial
 let tablero = ["B", "B", "B", ".", ".", "N", "N", "N"];
-let seleccionada = null; // índice de la pieza seleccionada
+let seleccionada = null;
 
 // Dibujar el tablero
 function dibujarTablero() {
@@ -15,13 +15,11 @@ function dibujarTablero() {
         casilla.classList.add("casilla");
         casilla.dataset.indice = indice;
 
-        // Nombre de la casilla
         const nombre = document.createElement("div");
         nombre.classList.add("nombre");
         nombre.textContent = nombresCasillas[indice];
         casilla.appendChild(nombre);
 
-        // Pieza
         const piezaDiv = document.createElement("div");
         piezaDiv.classList.add("pieza");
 
@@ -38,18 +36,14 @@ function dibujarTablero() {
 
         casilla.appendChild(piezaDiv);
 
-        // Marcar si está seleccionada
         if (seleccionada === indice) {
             casilla.classList.add("seleccionada");
         }
 
-        // Evento de clic
         casilla.addEventListener("click", () => clicCasilla(indice));
-
         contenedor.appendChild(casilla);
     });
 
-    // Marcar movimientos posibles
     if (seleccionada !== null) {
         const posibles = obtenerMovimientosPosibles(seleccionada);
         posibles.forEach(i => {
@@ -59,22 +53,21 @@ function dibujarTablero() {
     }
 }
 
-// Obtener movimientos posibles de una pieza
 function obtenerMovimientosPosibles(origen) {
     const posibles = [];
     const pieza = tablero[origen];
     if (pieza === ".") return posibles;
 
-    // 1. Deslizar hacia la derecha
+    // Deslizar derecha
     for (let i = origen + 1; i < 8; i++) {
         if (tablero[i] === ".") {
             posibles.push(i);
         } else {
-            break; // camino bloqueado
+            break;
         }
     }
 
-    // 2. Deslizar hacia la izquierda
+    // Deslizar izquierda
     for (let i = origen - 1; i >= 0; i--) {
         if (tablero[i] === ".") {
             posibles.push(i);
@@ -83,7 +76,7 @@ function obtenerMovimientosPosibles(origen) {
         }
     }
 
-    // 3. Saltar hacia la derecha (sobre pieza del color contrario)
+    // Saltar derecha
     if (origen + 2 < 8) {
         const medio = tablero[origen + 1];
         const destino = tablero[origen + 2];
@@ -92,7 +85,7 @@ function obtenerMovimientosPosibles(origen) {
         }
     }
 
-    // 4. Saltar hacia la izquierda
+    // Saltar izquierda
     if (origen - 2 >= 0) {
         const medio = tablero[origen - 1];
         const destino = tablero[origen - 2];
@@ -104,38 +97,28 @@ function obtenerMovimientosPosibles(origen) {
     return posibles;
 }
 
-// Cuando se hace clic en una casilla
 function clicCasilla(indice) {
     const pieza = tablero[indice];
 
-    // Si no hay nada seleccionado
     if (seleccionada === null) {
         if (pieza !== ".") {
             seleccionada = indice;
             document.getElementById("mensaje").textContent = "";
         }
-    }
-    // Si ya hay una pieza seleccionada
-    else {
-        // Si hago clic en la misma, deseleccionar
+    } else {
         if (seleccionada === indice) {
             seleccionada = null;
-        }
-        // Si hago clic en un destino posible → mover
-        else {
+        } else {
             const posibles = obtenerMovimientosPosibles(seleccionada);
             if (posibles.includes(indice)) {
-                // Realizar el movimiento
                 tablero[indice] = tablero[seleccionada];
                 tablero[seleccionada] = ".";
                 seleccionada = null;
 
-                // Comprobar si se ha ganado
                 if (haGanado()) {
                     document.getElementById("mensaje").textContent = "¡Has ganado! 🎉";
                 }
             } else {
-                // Si hago clic en otra pieza propia, cambiar selección
                 if (pieza !== ".") {
                     seleccionada = indice;
                 } else {
@@ -148,13 +131,11 @@ function clicCasilla(indice) {
     dibujarTablero();
 }
 
-// Comprobar victoria
 function haGanado() {
     const objetivo = ["N", "N", "N", ".", ".", "B", "B", "B"];
     return tablero.every((pieza, i) => pieza === objetivo[i]);
 }
 
-// Botón reiniciar
 document.getElementById("btnReiniciar").addEventListener("click", () => {
     tablero = ["B", "B", "B", ".", ".", "N", "N", "N"];
     seleccionada = null;
@@ -162,5 +143,14 @@ document.getElementById("btnReiniciar").addEventListener("click", () => {
     dibujarTablero();
 });
 
-// Iniciar
+// Iniciar el juego
 dibujarTablero();
+
+// ========== SERVICE WORKER ==========
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+            .then(() => console.log("Service Worker registrado"))
+            .catch(err => console.log("Error al registrar SW:", err));
+    });
+}
